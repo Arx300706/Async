@@ -1,0 +1,29 @@
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ page import="affichage.*" %><%@ page import="user.UserEJB" %><%@ page import="faturefournisseur.*" %><%@ page import="bean.CGenUtil" %>
+<%@ page import="magasin.Magasin" %><%@ page import="caisse.Devise" %><%@ page import="ferme.configuration.Souche" %>
+<% try {
+    UserEJB u=(UserEJB)session.getValue("u");String id=request.getParameter("id");if(id==null||id.trim().isEmpty())throw new Exception("Commande manquante");
+    As_BonDeCommandePoussin mere=new As_BonDeCommandePoussin();As_BonDeCommande_Fille filtre=new As_BonDeCommande_Fille();filtre.setNomTable("AS_BONDECOMMANDE_FILLE_CPL");filtre.setIdbc(id);
+    As_BonDeCommande_Fille[] lignes=(As_BonDeCommande_Fille[])CGenUtil.rechercher(filtre,null,null,"");if(lignes.length!=1)throw new Exception("La commande de poussins doit contenir une ligne");
+    As_BonDeCommande_Fille fille=new As_BonDeCommande_Fille();fille.setNomTable("AS_BONDECOMMANDE_FILLE_CPL");
+    PageUpdateMultiple pi=new PageUpdateMultiple(mere,fille,lignes,request,u,lignes.length);pi.setLien((String)session.getValue("lien"));
+    Liste[] entetes=new Liste[3];entetes[0]=new Liste("idDevise",new Devise(),"val","id");Magasin magasin=new Magasin();magasin.setNomTable("MAGASIN2");entetes[1]=new Liste("idMagasin",magasin,"val","id");entetes[1].setApresW(" and actif=1");entetes[2]=new Liste("idSouche",new Souche(),"val","id");pi.getFormu().changerEnChamp(entetes);
+    String[] caches={"id","etat","idDevise","modepaiement","service","iddmdachat","refproforma","remise","dateLimite","designation","idLot","dateDepartReelle","dateArriveeReelle"};
+    for(String c:caches)if(pi.getFormu().getChamp(c)!=null)pi.getFormu().getChamp(c).setVisible(false);
+    pi.getFormu().getChamp("reference").setLibelle("Référence fournisseur (facultative)");pi.getFormu().getChamp("daty").setLibelle("Date de commande");
+    pi.getFormu().getChamp("fournisseur").setLibelle("Fournisseur");pi.getFormu().getChamp("fournisseur").setPageAppelCompleteAWhere("faturefournisseur.Fournisseur","id","Fournisseur","",""," and estActif = 1");
+    pi.getFormu().getChamp("idSouche").setLibelle("Race / souche");pi.getFormu().getChamp("idMagasin").setLibelle("Poulailler de destination");pi.getFormu().getChamp("ageJours").setLibelle("Âge à l'arrivée (jours)");
+    pi.getFormu().getChamp("nbMaleRequis").setLibelle("Mâles demandés");pi.getFormu().getChamp("nbFemelleRequis").setLibelle("Femelles demandées");pi.getFormu().getChamp("paysDestination").setLibelle("Pays de destination");pi.getFormu().getChamp("aeroportDestination").setLibelle("Aéroport de destination");pi.getFormu().getChamp("dateDepartPrevue").setLibelle("Départ prévu");pi.getFormu().getChamp("dateArriveePrevue").setLibelle("Arrivée prévue");
+    pi.getFormu().getChamp("ageJours").setType("number");pi.getFormu().getChamp("nbMaleRequis").setType("number");pi.getFormu().getChamp("nbMaleRequis").setAutre("min='0' step='1'");pi.getFormu().getChamp("nbFemelleRequis").setType("number");pi.getFormu().getChamp("nbFemelleRequis").setAutre("min='0' step='1'");
+    Champ.setVisible(pi.getFormufle().getChampFille("id"),false);Champ.setVisible(pi.getFormufle().getChampFille("idbc"),false);Champ.setVisible(pi.getFormufle().getChampFille("montant"),false);Champ.setVisible(pi.getFormufle().getChampFille("unite"),false);Champ.setVisible(pi.getFormufle().getChampFille("idDevise"),false);Champ.setVisible(pi.getFormufle().getChampFille("tva"),false);Champ.setVisible(pi.getFormufle().getChampFille("remise"),false);Champ.setVisible(pi.getFormufle().getChampFille("tauxDeChange"),false);
+    Champ.setPageAppelCompleteAWhere(pi.getFormufle().getChampFille("produit"),"produits.IngredientsLib","id","ST_INGREDIENTSAUTOACHAT_CPL","pu;libelle","pu;produitLib"," and (upper(libelle) like upper('%poussin%') or upper(libelle) like upper('%poulet%'))");
+    pi.getFormufle().getChamp("produit_0").setLibelle("Article commandé");pi.getFormufle().getChamp("produitLib_0").setLibelle("Désignation");pi.getFormufle().getChamp("quantite_0").setLibelle("Nombre de poussins");pi.getFormufle().getChamp("quantite_0").setAutre("min='1' step='1'");pi.getFormufle().getChamp("pu_0").setLibelle("Prix unitaire");pi.getFormufle().setColOrdre(new String[]{"produit","produitLib","quantite","pu"});
+    pi.preparerDataFormu();pi.getFormu().makeHtmlInsertTabIndex();pi.getFormufle().makeHtmlInsertTableauIndex();
+%>
+<div class="content-wrapper"><h1>Modifier la commande <%=id%></h1><form class="container" action="<%=pi.getLien()%>?but=apresMultiple.jsp&id=<%=id%>" method="post"><%out.println(pi.getFormu().getHtmlInsert());%><div class="box box-default"><div class="box-header"><h3 class="box-title">Répartition demandée et ligne de commande</h3></div><div class="box-body"><%out.println(pi.getFormufle().getHtmlTableauInsert());%><strong>Total : <span id="totalImport">0.00</span></strong></div></div>
+<input type="hidden" name="acte" value="updateInsert"><input type="hidden" name="bute" value="ferme/importpoussin/commande-fiche.jsp"><input type="hidden" name="classe" value="faturefournisseur.As_BonDeCommandePoussin"><input type="hidden" name="classefille" value="faturefournisseur.As_BonDeCommande_Fille"><input type="hidden" name="nomtable" value="AS_BONDECOMMANDE_FILLE"><input type="hidden" name="nombreLigne" value="<%=pi.getNombreLigne()%>"><input type="hidden" name="colonneMere" value="idbc"></form></div>
+<script>
+function totalImport(){var q=parseFloat(document.getElementById('quantite_0').value)||0,p=parseFloat(document.getElementById('pu_0').value)||0;document.getElementById('totalImport').innerHTML=(q*p).toFixed(2);}
+['quantite_0','pu_0'].forEach(function(idChamp){var e=document.getElementById(idChamp);if(e)e.addEventListener('input',totalImport);});totalImport();
+</script>
+<% }catch(Exception e){e.printStackTrace();%><script>alert('<%=e.getMessage()%>');history.back();</script><%}%>

@@ -1,0 +1,7 @@
+# Fichiers > 100 Mo refusés par GitHub
+/projet-standard - Copie.zip
+projet-standard - Copie/build-file/lib/lib.zip
+projet-standard - Copie/build-file/arbiochem_war/WEB-INF/lib/lib.zip
+
+# Secrets locaux
+.env

@@ -1,0 +1,29 @@
+package ferme.importpoussin;
+
+import bean.ClassMAPTable;
+import java.sql.Date;
+
+/** Lecture de V_TRACE_IMPORT_POUSSIN, une ligne par affectation de compartiment. */
+public class TraceImportPoussin extends ClassMAPTable {
+    private String idBon, numeroBon, fournisseur, nomLot, race, poulailler, paysDestination, aeroportDestination;
+    private String idReceptionAeroport, idReceptionPoulailler, idRemplissage, idLigne, heureR1, heureR2, batiment, compartiment, sexe, remarqueLigne;
+    private Date dateCommande, dateDepartPrevue, dateDepartReelle, dateArriveePrevue, dateArriveeReelle, dateR1, dateR2;
+    private int ageJours, nbMaleRequis, nbFemelleRequis, mortsR1, perdusR1, vivantsR1,
+            vivantsMaleR1, vivantsFemelleR1, etatR1, mortsR2, perdusR2, vivantsR2,
+            vivantsMaleR2, vivantsFemelleR2, etatR2, etatRemplissage, sante;
+    private double quantiteCommandee, montant, qteAffectee, capaciteMax;
+    public TraceImportPoussin() { setNomTable("V_TRACE_IMPORT_POUSSIN"); }
+    public String getTuppleID() { return idBon; } public String getAttributIDName() { return "idBon"; }
+    public String getIdBon(){return idBon;} public void setIdBon(String v){idBon=v;} public String getNumeroBon(){return numeroBon;} public void setNumeroBon(String v){numeroBon=v;}
+    public String getFournisseur(){return fournisseur;} public void setFournisseur(String v){fournisseur=v;} public String getNomLot(){return nomLot;} public void setNomLot(String v){nomLot=v;} public String getRace(){return race;} public void setRace(String v){race=v;} public String getPoulailler(){return poulailler;} public void setPoulailler(String v){poulailler=v;} public String getPaysDestination(){return paysDestination;} public void setPaysDestination(String v){paysDestination=v;} public String getAeroportDestination(){return aeroportDestination;} public void setAeroportDestination(String v){aeroportDestination=v;}
+    public String getIdReceptionAeroport(){return idReceptionAeroport;} public void setIdReceptionAeroport(String v){idReceptionAeroport=v;} public String getIdReceptionPoulailler(){return idReceptionPoulailler;} public void setIdReceptionPoulailler(String v){idReceptionPoulailler=v;} public String getIdRemplissage(){return idRemplissage;} public void setIdRemplissage(String v){idRemplissage=v;} public String getIdLigne(){return idLigne;} public void setIdLigne(String v){idLigne=v;} public String getHeureR1(){return heureR1;} public void setHeureR1(String v){heureR1=v;} public String getHeureR2(){return heureR2;} public void setHeureR2(String v){heureR2=v;} public String getBatiment(){return batiment;} public void setBatiment(String v){batiment=v;} public String getCompartiment(){return compartiment;} public void setCompartiment(String v){compartiment=v;} public String getSexe(){return sexe;} public void setSexe(String v){sexe=v;} public String getRemarqueLigne(){return remarqueLigne;} public void setRemarqueLigne(String v){remarqueLigne=v;}
+    public Date getDateCommande(){return dateCommande;} public void setDateCommande(Date v){dateCommande=v;} public Date getDateDepartPrevue(){return dateDepartPrevue;} public void setDateDepartPrevue(Date v){dateDepartPrevue=v;} public Date getDateDepartReelle(){return dateDepartReelle;} public void setDateDepartReelle(Date v){dateDepartReelle=v;} public Date getDateArriveePrevue(){return dateArriveePrevue;} public void setDateArriveePrevue(Date v){dateArriveePrevue=v;} public Date getDateArriveeReelle(){return dateArriveeReelle;} public void setDateArriveeReelle(Date v){dateArriveeReelle=v;} public Date getDateR1(){return dateR1;} public void setDateR1(Date v){dateR1=v;} public Date getDateR2(){return dateR2;} public void setDateR2(Date v){dateR2=v;}
+    public int getAgeJours(){return ageJours;} public void setAgeJours(int v){ageJours=v;} public int getMortsR1(){return mortsR1;} public void setMortsR1(int v){mortsR1=v;} public int getPerdusR1(){return perdusR1;} public void setPerdusR1(int v){perdusR1=v;} public int getVivantsR1(){return vivantsR1;} public void setVivantsR1(int v){vivantsR1=v;} public int getEtatR1(){return etatR1;} public void setEtatR1(int v){etatR1=v;} public int getMortsR2(){return mortsR2;} public void setMortsR2(int v){mortsR2=v;} public int getPerdusR2(){return perdusR2;} public void setPerdusR2(int v){perdusR2=v;} public int getVivantsR2(){return vivantsR2;} public void setVivantsR2(int v){vivantsR2=v;} public int getEtatR2(){return etatR2;} public void setEtatR2(int v){etatR2=v;} public int getEtatRemplissage(){return etatRemplissage;} public void setEtatRemplissage(int v){etatRemplissage=v;} public int getSante(){return sante;} public void setSante(int v){sante=v;}
+    public int getNbMaleRequis(){return nbMaleRequis;} public void setNbMaleRequis(int v){nbMaleRequis=v;}
+    public int getNbFemelleRequis(){return nbFemelleRequis;} public void setNbFemelleRequis(int v){nbFemelleRequis=v;}
+    public int getVivantsMaleR1(){return vivantsMaleR1;} public void setVivantsMaleR1(int v){vivantsMaleR1=v;}
+    public int getVivantsFemelleR1(){return vivantsFemelleR1;} public void setVivantsFemelleR1(int v){vivantsFemelleR1=v;}
+    public int getVivantsMaleR2(){return vivantsMaleR2;} public void setVivantsMaleR2(int v){vivantsMaleR2=v;}
+    public int getVivantsFemelleR2(){return vivantsFemelleR2;} public void setVivantsFemelleR2(int v){vivantsFemelleR2=v;}
+    public double getQuantiteCommandee(){return quantiteCommandee;} public void setQuantiteCommandee(double v){quantiteCommandee=v;} public double getMontant(){return montant;} public void setMontant(double v){montant=v;} public double getQteAffectee(){return qteAffectee;} public void setQteAffectee(double v){qteAffectee=v;} public double getCapaciteMax(){return capaciteMax;} public void setCapaciteMax(double v){capaciteMax=v;}
+}
